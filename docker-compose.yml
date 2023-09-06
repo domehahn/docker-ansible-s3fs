@@ -24,6 +24,39 @@ services:
     networks:
       - microservice-network
 
+  multiarch:
+    build: &build-bake
+      dockerfile: multistage/ansible.Dockerfile
+      tags:
+        - devilluminati/jdk17-ansible-s3fs:latest
+      cache_from:
+        - devilluminati/jdk17-ansible-s3fs:cache
+      cache_to:
+        - devilluminati/jdk17-ansible-s3fs:cache
+      x-bake:
+        platform:
+          - linux/amd64
+          - linux/arm64
+    container_name: ansible-s3fs
+    volumes:
+      - ./multistage/entrypoint.sh:/entrypoint.sh:ro,Z
+      - ./ansible:/ansible
+    environment:
+      S3FS_BUCKET: 'test-bucket'
+      S3FS_ACCESS_KEY_ID: 'test'
+      S3FS_SECRET_ACCESS_KEY: 'test'
+      S3FS_MOUNT: '/opt/s3fs/bucket'
+      S3FS_BUCKET_URL: 'http://localstack_main:4566'
+      S3FS_ARGS: 'use_path_request_style'
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - 'apparmor:unconfined'
+    devices:
+      - /dev/fuse
+    networks:
+      - microservice-network
+
 networks:
   microservice-network:
     driver: bridge

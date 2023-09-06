@@ -4,11 +4,12 @@ group "default" {
 }
 
 target "ansible" {
-    args = {
-        MULTISTAGE_IMAGE="eclipse-temurin:17-focal"
+    contexts = {
+        jdk17 = "docker-image://eclipse-temurin:17-focal"
+        alpine = "docker-image://alpine:3.18.3"
     }
     dockerfile = "ansible.Dockerfile"
-    tags = ["devilluminati/jdk-ansible-s3fs:latest"]
+    tags = ["devilluminati/jdk17-ansible-s3fs:latest"]
     platforms = ["linux/amd64", "linux/arm64"]
     output = ["type=registry"]
 }

@@ -1,13 +1,8 @@
-ARG ALPINE_VERSION=3.18.3
-ARG MULTISTAGE_IMAGE
+FROM jdk17 as builder
 
-FROM $MULTISTAGE_IMAGE:latest as builder
+FROM alpine
 
-FROM alpine:$ALPINE_VERSION
-
-COPY --from=builder /app /app
-
-COPY ../ansible .
+COPY . ../ansible
 
 ENV S3FS_MOUNT=/opt/s3fs/bucket
 
