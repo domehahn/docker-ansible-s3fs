@@ -62,18 +62,24 @@ def getPasswdFile(module):
     secret_access_key_value = module.params['secretAccessKey']
 
     # Create a temporary file
-    with tempfile.NamedTemporaryFile(delete=False, mode='w') as passwd_file:
-        passwd_file.write(f"{bucket_value}:{access_key_id_value}:{secret_access_key_value}")
+    with tempfile.NamedTemporaryFile(delete=False, mode='w') as tmp_file:
+        tmp_file.write(f"{bucket_value}:{access_key_id_value}:{secret_access_key_value}")
 
-    passwd_file_string = f"passwd_file={passwd_file.name}"
+    passwd_file_string = f"passwd_file={tmp_file.name}"
     return passwd_file_string
 
 def mount_bucket(module):
     s3fs_args = getAdditionalS3fsOptions(module.params['args'])
     passwd_file = getPasswdFile(module)
-    url = f"url={module.params['url']}"
-    #subprocess.run(['s3fs', s3fs_args, '-o', passwd_file, '-o', url, module.params['bucket'], module.params['mount']], capture_output=True, text=True).stdout
-    subprocess.run(['s3fs -o use_path_request_style -o passwd_file="/etc/passwd-s3fs" -o "url=http://host.docker.internal:4566" test-bucket /opt/s3fs/bucket'], capture_output=True, text=True).stdout
+    command = [
+        's3fs',
+        s3fs_args,
+        '-o', passwd_file,
+        '-o', f"url={module.params['url']}",
+        module.params['bucket'],
+        module.params['mount']
+    ]
+    subprocess.run(command, capture_output=True, text=True).stdout
 
 def run_module():
     # define available arguments/parameters a user can pass to the module
@@ -122,6 +128,7 @@ def run_module():
     # part where your module will do what it needs to do)
     mount_bucket(module)
 
+    result['message'] = 'Successfully mount bucket into folder.'
     result['changed'] = True
 
     # in the event of a successful module execution, you will want to

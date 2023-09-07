@@ -12,17 +12,17 @@
   roles:
     - { role: domehahn.s3fs-fuse }
 
-#- hosts: localhost
-#  gather_facts: true
-#  become: true
-#
-#  tasks:
-#
-#    - name: mount folder to s3 bucket using s3fs
-#      s3fs:
-#        url: "http://localhost:4566"
-#        bucket: "test-bucket"
-#        mount: "/opt/s3fs/bucket"
-#        accessKeyId: "test"
-#        secretAccessKey: "test"
-#        args: ""
+- hosts: localhost
+  gather_facts: true
+  become: true
+
+  tasks:
+
+    - name: mount folder to s3 bucket using s3fs
+      s3fs:
+        url: "http://localstack_main:4566"
+        bucket: "test-bucket"
+        mount: "/opt/s3fs/bucket"
+        accessKeyId: "test"
+        secretAccessKey: "test"
+        args: "use_path_request_style"
