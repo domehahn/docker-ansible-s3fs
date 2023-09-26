@@ -1,14 +1,23 @@
-ARG ALPINE_VERSION=3.18.3
-ARG MULTISTAGE_IMAGE
+FROM jdk17 as builder
 
-FROM $MULTISTAGE_IMAGE:latest as builder
+RUN mkdir ansible
 
-FROM alpine:$ALPINE_VERSION
+COPY ansible ansible
 
-COPY --from=builder /app /app
+FROM alpine
+
+COPY --from=builder ansible ansible
 
 ENV S3FS_MOUNT=/opt/s3fs/bucket
 
 VOLUME $S3FS_MOUNT
 
-ENTRYPOINT ["/entrypoint.sh"]
+RUN apk upgrade --no-cache && \
+    apk add ansible && \
+    rm -rf /var/cache/apk/*
+
+COPY entrypoint.sh ./ansible
+
+WORKDIR ansible
+
+ENTRYPOINT ["./entrypoint.sh"]

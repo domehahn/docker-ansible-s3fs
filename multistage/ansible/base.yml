@@ -20,9 +20,9 @@
 
     - name: mount folder to s3 bucket using s3fs
       s3fs:
-        url: "http://localstack_main:4566"
-        bucket: "test-bucket"
-        mount: "/opt/s3fs/bucket"
-        accessKeyId: "test"
-        secretAccessKey: "test"
-        args: "use_path_request_style"
+        url: "{{ s3fs-url }}"
+        bucket: "{{ s3fs-bucket }}"
+        mount: "{{ s3fs-mount }}"
+        accessKeyId: "{{ s3fs-accessKeyId }}"
+        secretAccessKey: "{{ s3fs-secretAccessKey }}"
+        args: "{{ s3fs-args }}"
