@@ -1,10 +1,10 @@
-FROM jdk17 as builder
+FROM eclipse-temurin:17-focal as builder
 
 RUN mkdir ansible
 
 COPY ansible ansible
 
-FROM alpine
+FROM alpine:3.18.3
 
 COPY --from=builder ansible ansible
 

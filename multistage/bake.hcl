@@ -9,7 +9,7 @@ target "ansible" {
         alpine = "docker-image://alpine:3.18.3"
     }
     dockerfile = "ansible.Dockerfile"
-    tags = ["devilluminati/jdk17-ansible-s3fs:latest"]
+    tags = ["aboutdevops/jdk17-ansible-s3fs:latest"]
     platforms = ["linux/amd64", "linux/arm64"]
     output = ["type=registry"]
 }
