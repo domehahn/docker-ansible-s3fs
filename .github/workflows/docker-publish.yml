@@ -92,7 +92,8 @@ jobs:
         uses: docker/bake-action@v4
         with:
           context: ./multistage
-          tags: latest
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
           push: true
 
       # Sign the resulting Docker image digest except on PRs.
