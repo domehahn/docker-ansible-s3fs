@@ -91,7 +91,7 @@ jobs:
       - name: Build and push
         uses: docker/bake-action@v4
         with:
-          workdir: ./multistage
+          context: ./multistage
           push: true
 
       # Sign the resulting Docker image digest except on PRs.
