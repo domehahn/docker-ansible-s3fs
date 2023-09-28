@@ -92,6 +92,7 @@ jobs:
         uses: docker/bake-action@v4
         with:
           context: ./multistage
+          tags: latest
           push: true
 
       # Sign the resulting Docker image digest except on PRs.
