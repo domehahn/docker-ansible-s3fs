@@ -92,8 +92,8 @@ jobs:
         uses: docker/bake-action@v4
         with:
           files: |
-            ./multistage/bake.hcl
-          targets: image-all
+            ./multistage/docker-bake.hcl
+          targets: ansible
           push: true
 
       # Sign the resulting Docker image digest except on PRs.
