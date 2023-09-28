@@ -93,7 +93,7 @@ jobs:
         with:
           files: |
             ./multistage/bake.hcl
-          targets: image-all
+          targets: ansible
           push: true
 
       # Sign the resulting Docker image digest except on PRs.
