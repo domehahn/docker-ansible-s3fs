@@ -2,7 +2,7 @@ FROM jdk17 as builder
 
 RUN mkdir ansible
 
-COPY ansible ansible
+COPY ./multistage/ansible ansible
 
 FROM alpine
 
@@ -16,7 +16,7 @@ RUN apk upgrade --no-cache && \
     apk add ansible && \
     rm -rf /var/cache/apk/*
 
-COPY entrypoint.sh ./ansible
+COPY ./multistage/entrypoint.sh ./ansible
 
 WORKDIR ansible
 
