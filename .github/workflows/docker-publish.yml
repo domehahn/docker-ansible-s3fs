@@ -91,9 +91,7 @@ jobs:
       - name: Build and push
         uses: docker/bake-action@v4
         with:
-          context: ./multistage
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          source: ./multistage
           push: true
 
       # Sign the resulting Docker image digest except on PRs.
