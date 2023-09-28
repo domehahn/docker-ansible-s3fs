@@ -16,7 +16,6 @@ target "image" {
         jdk17 = "docker-image://eclipse-temurin:17-focal"
         alpine = "docker-image://alpine:3.18.3"
     }
-    context = "."
     dockerfile = "ansible.Dockerfile"
     output = ["type=registry"]
 }
